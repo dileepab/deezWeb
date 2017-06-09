@@ -1,0 +1,85 @@
+p{
+  margin: 0;
+  padding: 15px 15px 0;
+}
+
+.name-select{
+  display: block;
+  width: 200px;
+  max-width: 50%;
+}
+
+.flex-holder{
+   padding: 0;
+}
+.attendance-table{
+  table-layout: fixed;
+  text-align: center;
+}
+.table-header-data table{
+  height: 30px;
+}
+.table-header-data th{
+  border: none;
+  border-top: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
+  background: #eee;
+  padding: 4px 0;
+  vertical-align: middle;
+}
+
+.table-data{
+  display: block;
+  height: calc(100vh - 64px - 15px - 68px - 30px - 51px);
+  overflow: auto;
+}
+
+tr td{
+  border-bottom: 1px solid #eee;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.time-span{
+  display: block;
+  cursor: pointer;
+  min-height: 20px;
+}
+
+.table-footer-data{
+  text-align: left;
+}
+
+.table-footer-data tr:first-child td{
+  border-top: 2px solid #ddd;
+}
+
+.table-footer-data tr td{
+  padding: 3px 0;
+  border: none;
+  background: #eee;
+}
+
+.incentive-input{
+  border: none;
+  border-bottom: 1px dotted;
+  background: transparent;
+  max-width: 100%;
+}
+.filter-toggle, .print{
+  margin: 11px;
+}
+
+@media (max-width: 667px) {
+  .filter{
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #fff;
+    top: 80px;
+    padding: 20px 0;
+  }
+  .filter-toggle.open{
+    color: #f44336;
+  }
+}

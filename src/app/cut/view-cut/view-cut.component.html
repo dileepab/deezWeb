@@ -1,0 +1,84 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+    <form name="form" class="example-form">
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.noOfYards" required disabled="{{formDisabled}}"
+                   name="noOfYards" placeholder="No Of Yards">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.yardPrice" required disabled="{{formDisabled}}"
+                   name="yardPrice" placeholder="Yard Price">
+        </md-input-container>
+        <table class="example-full-width form-table" cellspacing="0">
+            <tr *ngFor="let item of cut.otherMaterials; let idx = index">
+                <td>
+                    <md-input-container class="example-full-width">
+                        <input name="desk-{{idx}}" mdInput placeholder="Other Expenses" [(ngModel)]="item.desc" value="" disabled="{{formDisabled}}">
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container class="example-full-width">
+                        <input name="price-{{idx}}" mdInput placeholder="Value (Rs.)" [(ngModel)]="item.price" value="" disabled="{{formDisabled}}">
+                    </md-input-container>
+                </td>
+                <td width="40px" style="vertical-align: top">
+                    <button *ngIf="idx < cut.otherMaterials.length-1" md-icon-button color="warn" (click)="removeRow(idx)" disabled="{{formDisabled}}">
+                        <md-icon>delete</md-icon>
+                    </button>
+                    <button *ngIf="idx == cut.otherMaterials.length-1" md-icon-button color="primary" (click)="addNewRow()" disabled="{{formDisabled}}">
+                        <md-icon>add</md-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.noOfPieces" required disabled="{{formDisabled}}"
+                   name="noOfPieces" placeholder="No Of Pieces">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.piecePrice" disabled="{{formDisabled}}" name="piecePrice"
+                   placeholder="Piece Price">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.patternNo" disabled="{{formDisabled}}" name="patternNo"
+                   placeholder="Pattern No">
+        </md-input-container>
+
+        <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true" required
+                        [(ngModel)]="cut.deliverDate" disabled="{{formDisabled}}" name="deliverDate"
+                        placeholder="Deliver Date"></md2-datepicker>
+
+        <md-select name="customer" class="example-full-width" [(ngModel)]="cut.customer" disabled="{{formDisabled}}"
+                   placeholder="Customer (To Whom)">
+            <md-option *ngFor="let customer of customers" [value]="customer.id">
+                {{customer.name}}
+            </md-option>
+        </md-select>
+
+        <md-input-container class="example-full-width">
+                <textarea mdInput [(ngModel)]="cut.note" md-maxlength="150" rows="3" md-select-on-focus
+                          disabled="{{formDisabled}}" name="note" placeholder="Note"></textarea>
+        </md-input-container>
+
+        <button type="button" md-raised-button [routerLink]="['/cut']" *ngIf="formDisabled"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+        <button type="button" md-raised-button (click)="editCut()" *ngIf="formDisabled" color="warn">Edit
+            Cut
+        </button>
+
+        <button type="button" md-raised-button (click)="cancelEdit()" *ngIf="!formDisabled">
+            Cancel Edit
+        </button>
+
+        <button type="button" md-raised-button (click)="updateCut()" *ngIf="!formDisabled" color="warn">
+            Update Cut
+        </button>
+
+        <md-list>
+            <md-list-item> Fabric Cost : Rs.{{(cut.yardPrice*cut.noOfYards || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Other Cost : Rs.{{(otherCost() || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Income : Rs.{{(cut.noOfPieces*cut.piecePrice || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Revenue: Rs {{cut.noOfPieces*cut.piecePrice - (cut.yardPrice*cut.noOfYards + otherCost()) || 0 | number :'1.2-2' }} </md-list-item>
+        </md-list>
+
+    </form>
+</div>

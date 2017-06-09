@@ -1,0 +1,163 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';*/
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v22/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+
+html,body{
+    height: 100%;
+}
+body{
+    margin: 0;
+}
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+@media print {
+  * {visibility: hidden;}
+
+  @page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+  }
+
+  .printable{
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 50px;
+  }
+
+  .printable * {
+    visibility: visible;
+  }
+}
+
+
+.example-icon {
+    padding: 0 14px;
+    color: #fff;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+.mat-sidenav-container{
+    height: calc(100% - 64px);
+}
+
+@media (max-width: 960px) and (orientation: landscape){
+    .mat-sidenav-container {
+        height: calc(100% - 48px);
+    }
+}
+@media (max-width: 600px) and (orientation: portrait){
+    .mat-sidenav-container {
+        height: calc(100% - 56px);
+    }
+}
+
+.mat-sidenav{
+    min-width: 200px !important;
+}
+.mat-nav-list .mat-subheader{
+    font-size: 18px !important;
+}
+
+.example-form {
+    width: 100%;
+    max-width: 800px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+*:focus{
+    outline: none;
+}
+
+.flex-holder{
+    min-height: 100%;
+    padding: 15px;
+}
+
+.mat-select-trigger{
+    margin: 1em 0;
+}
+.date-picker, .cdk-overlay-pane{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.form-table{
+    table-layout: fixed;
+}
+
+.md2-datepicker-trigger{
+    padding: 0 0 6px 46px !important;
+    margin: 1em 0;
+}
+.md2-datepicker-trigger .md2-datepicker-input{
+  min-width: calc(100% - 46px);
+}
+
+table{
+  border-spacing: 0;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #fafafa inset;
+}
+
+.button-holder{
+  padding: 20px 0 0;
+}
+
+.handle{
+  cursor: pointer;
+  color: #666;
+}
+.gu-transit td{
+  border-top: 1px dotted #666;
+  border-bottom: 1px dotted #666;
+}
+.gu-mirror{
+  z-index: 10;
+  display: block;
+}
+.gu-mirror td{
+  background: #333;
+}
+
+.target-table{
+  border-spacing: 10px;
+}
+

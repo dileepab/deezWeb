@@ -1,0 +1,30 @@
+<div fxLayout="column" class="flex-holder">
+    <p>
+        <input class="file-name" type="text" value="{{selectedFile ? selectedFile.name : ''}}">
+        <label class="file-upload">
+            <input type="file" (change)="changeListener($event)" accept=".csv" #fileInput>
+            <a md-raised-button href="javascript:" (click)="fileInput.click()" mdTooltip="Upload" disabled="{{loading}}"><md-icon>attachment</md-icon></a>
+            <a md-raised-button disabled="{{!selectedFile}}" (click)="addAttendance()" href="javascript:" mdTooltip="Submit" disabled="{{loading}}"><md-icon>file_upload</md-icon></a>
+        </label>
+    </p>
+    <div class="table-header-data">
+
+        <table class="example-full-width attendance-table">
+            <thead>
+            <tr>
+                <th *ngFor="let col of localCsvHeader">{{col}}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="table-data">
+        <table class="example-full-width attendance-table">
+            <tbody>
+            <tr *ngFor="let row of localCsv">
+                <td *ngFor="let col of row"> {{col}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

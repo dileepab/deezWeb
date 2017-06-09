@@ -1,0 +1,79 @@
+<div class="content-holder">
+
+  <div class="navbar mat-elevation-z6">
+    <md-toolbar class="md-hue-2" color="warn">
+      <!--<div >-->
+      <button md-icon-button (click)="sidenav.toggle()" *ngIf="location != 'auth'">
+        <md-icon>menu</md-icon>
+      </button>
+      <span class="page-title">{{title}}</span>
+
+      <span class="toolbar-spacer"></span>
+      <button md-icon-button [mdMenuTriggerFor]="notifications" *ngIf="location != 'auth'">
+        <md-icon>notifications</md-icon>
+      </button>
+      <button md-icon-button [mdMenuTriggerFor]="appMenu" *ngIf="location != 'auth'" fxFlexAlign="center end">
+        <md-icon>more_vert</md-icon>
+      </button>
+      <md-menu #appMenu="mdMenu">
+        <button md-menu-item [routerLink]="['/settings']"> Settings</button>
+        <button md-menu-item> Edit Profile</button>
+        <button md-menu-item> Help</button>
+        <button md-menu-item  [routerLink]="['/auth/logout']"> Log out</button>
+      </md-menu>
+      <md-menu #notifications="mdMenu">
+        <!--<span>No notifications <md-icon>notifications_off</md-icon></span>-->
+      </md-menu>
+
+
+      <!--</div>-->
+
+    </md-toolbar>
+  </div>
+
+  <md-sidenav-container>
+
+
+    <md-sidenav #sidenav>
+
+      <md-nav-list>
+        <md-list-item [routerLink]="['/']" (click)="sidenav.close()">
+          <md-icon>home</md-icon>&nbsp;&nbsp;&nbsp; Home
+        </md-list-item>
+        <md-divider></md-divider>
+        <h3 md-subheader>Cut</h3>
+        <md-divider></md-divider>
+        <md-list-item [routerLink]="['/cut']" (click)="sidenav.close()">
+          <md-icon>format_list_numbered</md-icon>&nbsp;&nbsp;&nbsp; All Cuts
+        </md-list-item>
+        <md-list-item [routerLink]="['/cut/addCut']" (click)="sidenav.close()">
+          <md-icon>content_cut</md-icon>&nbsp;&nbsp;&nbsp; Add cuts
+        </md-list-item>
+        <md-divider></md-divider>
+
+        <h3 md-subheader>Pattern</h3>
+        <md-divider></md-divider>
+        <md-list-item [routerLink]="['/pattern']" (click)="sidenav.close()">
+          <md-icon>style</md-icon>&nbsp;&nbsp;&nbsp; All Pattern
+        </md-list-item>
+        <md-list-item [routerLink]="['/pattern/addPattern']" (click)="sidenav.close()">
+          <md-icon>playlist_add</md-icon>&nbsp;&nbsp;&nbsp; Add Pattern
+        </md-list-item>
+        <md-divider></md-divider>
+
+        <h3 md-subheader>Attendance</h3>
+        <md-divider></md-divider>
+        <md-list-item [routerLink]="['/attendance']" (click)="sidenav.close()">
+          <md-icon>note_add</md-icon>&nbsp;&nbsp;&nbsp; Add Attendance
+        </md-list-item>
+        <md-list-item [routerLink]="['/attendance/viewAttendance']" (click)="sidenav.close()">
+          <md-icon>view_comfy</md-icon>&nbsp;&nbsp;&nbsp; View Attendance
+        </md-list-item>
+      </md-nav-list>
+    </md-sidenav>
+
+    <router-outlet></router-outlet>
+
+  </md-sidenav-container>
+
+</div>

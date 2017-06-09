@@ -1,0 +1,21 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+  <form name="addCutForm" class="example-form" #addRoleForm="ngForm">
+
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="role.name" required
+             name="roleName" placeholder="Role Name">
+    </md-input-container>
+
+
+    <button type="button" md-raised-button [routerLink]="['/']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+    <button type="button" md-raised-button (click)="addRole()" disabled="{{loading || !addRoleForm.valid}}" color="warn">Add
+      Role
+    </button>
+
+    <md-list>
+      <md-list-item *ngFor="let role of roles">{{role.name}}</md-list-item>
+    </md-list>
+
+  </form>
+</div>

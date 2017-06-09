@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+  <form name="addEmployeeForm" class="example-form" #addEmployeeForm="ngForm">
+
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+                    [(ngModel)]="holiday.date" name="date"
+                    placeholder="Date" type="date" required=""></md2-datepicker>
+
+    <button type="button" md-raised-button [routerLink]="['/settings/']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+    <button type="button" md-raised-button (click)="addHoliday()" disabled="{{loading || !addEmployeeForm.valid}}" color="warn">Add
+      Holiday
+    </button>
+  </form>
+</div>

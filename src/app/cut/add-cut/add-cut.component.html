@@ -1,0 +1,80 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+    <form name="addCutForm" class="example-form" #addCutForm="ngForm">
+
+        <md2-datepicker [min]="minDate" [max]="today" container="dialog" class="example-full-width date-picker" openOnFocus="true"
+                        [(ngModel)]="cut.date" name="cutDate"
+                        placeholder="Date"></md2-datepicker>
+
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.noOfYards" required
+                   name="noOfYards" placeholder="No Of Yards">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.yardPrice" required
+                   name="yardPrice" placeholder="Yard Price (Rs.)">
+        </md-input-container>
+        <table class="example-full-width form-table" cellspacing="0">
+            <tr *ngFor="let item of cut.otherMaterials; let idx = index">
+                <td>
+                    <md-input-container class="example-full-width">
+                        <input name="desk-{{idx}}" mdInput placeholder="Other Expenses" [(ngModel)]="item.desc" value="">
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container class="example-full-width">
+                        <input name="price-{{idx}}" mdInput placeholder="Value (Rs.)" [(ngModel)]="item.price" value="">
+                    </md-input-container>
+                </td>
+                <td width="40px" style="vertical-align: top">
+                    <button *ngIf="idx < cut.otherMaterials.length-1" md-icon-button color="warn" (click)="removeRow(idx)">
+                        <md-icon>delete</md-icon>
+                    </button>
+                    <button *ngIf="idx == cut.otherMaterials.length-1" md-icon-button color="primary" (click)="addNewRow()">
+                        <md-icon>add</md-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.noOfPieces" required
+                   name="noOfPieces" placeholder="No Of Pieces">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.piecePrice"  name="piecePrice"
+                   placeholder="Piece Price (Rs.)">
+        </md-input-container>
+        <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="cut.patternNo"  name="patternNo"
+                   placeholder="Pattern No">
+        </md-input-container>
+
+        <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true" required
+                        [(ngModel)]="cut.deliverDate" name="deliverDate"
+                        placeholder="Deliver Date"></md2-datepicker>
+
+        <md-select name="customer" class="example-full-width" [(ngModel)]="cut.customer"
+                   placeholder="Customer (To Whom)">
+            <md-option *ngFor="let customer of customers" [value]="customer.id">
+                {{customer.name}}
+            </md-option>
+        </md-select>
+
+        <md-input-container class="example-full-width">
+                <textarea mdInput [(ngModel)]="cut.note" md-maxlength="150" rows="3" md-select-on-focus
+                           name="note" placeholder="Note"></textarea>
+        </md-input-container>
+
+        <button type="button" md-raised-button [routerLink]="['/cut']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+        <button type="button" md-raised-button (click)="addCut()" disabled="{{loading || !addCutForm.valid}}" color="warn">Add
+            Cut
+        </button>
+        <md-list>
+            <md-list-item> Fabric Cost : Rs.{{(cut.yardPrice*cut.noOfYards || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Other Cost : Rs.{{(otherCost() || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Income : Rs.{{(cut.noOfPieces*cut.piecePrice || 0)| number :'1.2-2'}} </md-list-item>
+            <md-list-item> Revenue: Rs {{cut.noOfPieces*cut.piecePrice - (cut.yardPrice*cut.noOfYards + otherCost()) || 0 | number :'1.2-2' }} </md-list-item>
+        </md-list>
+
+    </form>
+</div>

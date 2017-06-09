@@ -1,0 +1,5 @@
+<div fxLayout="column" class="flex-holder">
+  <md-nav-list class="example-full-width">
+    <md-list-item *ngFor="let employee of employees" [routerLink]="['/settings/employee/viewEmployee',employee.id]">{{employee.initials}} {{employee.firstName}} {{employee.lastName}} - {{employee.contactNo}}</md-list-item>
+  </md-nav-list>
+</div>

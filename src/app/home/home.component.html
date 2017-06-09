@@ -1,0 +1,35 @@
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center start" fxLayoutAlign.lt-sm="end stretch" class="flex-holder" fxLayoutGap="20px">
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>content_cut</md-icon>
+      <md-card-title>Cut</md-card-title>
+      <md-card-subtitle>Manage Cut</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/cut']">Go To Cut</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>note_add</md-icon>
+      <md-card-title>Attendance</md-card-title>
+      <md-card-subtitle>Manage Attendance</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/attendance']">Go To Attendance</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>settings</md-icon>
+      <md-card-title>Settings</md-card-title>
+      <md-card-subtitle>App Settings</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/settings']">Go To Settings</button>
+    </md-card-actions>
+  </md-card>
+</div>

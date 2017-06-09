@@ -1,0 +1,99 @@
+<div fxLayout="column" class="flex-holder">
+  <p fxLayout="row">
+    <md-select class="name-select" name="employees" [(ngModel)]="selectedEmployee" (change)="changeEmployee()"
+               placeholder="Employee">
+      <md-option *ngFor="let employee of employees" [value]="employee">
+        {{employee.firstName}} {{employee.lastName}}
+      </md-option>
+    </md-select>
+
+    <button md-icon-button class="print" (click)="openPrintDialog()">
+      <md-icon>print</md-icon>
+    </button>
+
+    <span class="toolbar-spacer"></span>
+
+
+    <button fxHide.gt-xs fxShow.xs md-icon-button class="filter-toggle" (click)="toggleFilter()"
+            [ngClass.xs]="{'open': showFilter}">
+      <md-icon>filter_list</md-icon>
+    </button>
+
+    <span class="filter" [fxShow.xs]="showFilter">
+    <md2-datepicker container="dialog" openOnFocus="true" required (change)="changeDate()"
+                    [(ngModel)]="startDate" name="startDate"
+                    placeholder="Start Date"></md2-datepicker>
+
+    <md2-datepicker container="dialog" openOnFocus="true" required (change)="changeDate()"
+                    [(ngModel)]="endDate" name="endDate"
+                    placeholder="End Date"></md2-datepicker>
+  </span>
+  </p>
+
+  <div class="table-header-data">
+
+    <table class="example-full-width attendance-table">
+      <thead>
+      <tr>
+        <th *ngFor="let col of attendanceHeader">{{col}}</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div class="table-data with-footer">
+    <table class="example-full-width attendance-table">
+      <tbody>
+      <tr *ngFor="let row of attendanceBody">
+        <td> {{row.date | date : 'MMM dd - EEE'}}</td>
+        <td><span class="time-span" *ngIf="!row.inTimeEdit" (click)="row.inTimeEdit = true"> {{row.inTime.dateTime | date : 'HH : mm : ss'}}</span>
+          <md2-datepicker *ngIf="row.inTimeEdit" container="dialog" openOnFocus="true" required
+                          [(ngModel)]="row.inTime.dateTime" name="deliverDate" type="datetime"
+                          placeholder="Deliver Date"></md2-datepicker>
+        </td>
+        <td><span class="time-span" *ngIf="!row.outTimeEdit" (click)="row.outTimeEdit = true">{{row.outTime.dateTime | date : 'HH : mm : ss'}}</span>
+          <md2-datepicker *ngIf="row.outTimeEdit" container="dialog" openOnFocus="true" required
+                          [(ngModel)]="row.outTime.dateTime" name="deliverDate" type="datetime"
+                          placeholder="Deliver Date"></md2-datepicker>
+        </td>
+        <td> {{row.status}}
+
+          <a md-raised-button *ngIf="row.inTimeEdit || row.outTimeEdit" (click)="updateTime(row)" href="javascript:"
+             mdTooltip="Update">
+            <md-icon>file_upload</md-icon>
+          </a>
+          <a md-raised-button *ngIf="row.inTimeEdit || row.outTimeEdit"
+             (click)="row.outTimeEdit = false; row.inTimeEdit= false" href="javascript:" mdTooltip="Cancel">
+            <md-icon>close</md-icon>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-footer-data">
+
+    <table class="example-full-width attendance-table">
+      <thead>
+      <tr>
+
+        <td><strong>Leave: </strong>{{leave || 0}} days</td>
+        <td><strong>Late: </strong><span *ngIf="lateTime">{{lateTime/(1000*60) | number :'1.2-2'}} min</span></td>
+        <td><strong>OT: </strong><span *ngIf="otTime">{{getOtTime(otTime)}} hrs</span></td>
+        <td><strong>Incentive: </strong><input class="incentive-input" name="incentive" [(ngModel)]="incentive"
+                                               type="number"></td>
+      </tr>
+      <tr>
+
+        <td><strong>Total Salary: </strong>{{(basicSalary - leavePenalty - latePenalty + overTime + attendanceBonus +
+          incentive) | number :'1.2-2' }}
+        </td>
+        <td>leavePenalty - {{leavePenalty | number :'1.2-2' }}</td>
+        <td>latePenalty - {{latePenalty | number :'1.2-2' }}</td>
+        <td>att. Bonus - {{attendanceBonus | number :'1.2-2' }}</td>
+      </tr>
+      </thead>
+    </table>
+  </div>
+</div>

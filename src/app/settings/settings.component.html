@@ -1,0 +1,38 @@
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center start" fxLayoutAlign.lt-sm="end stretch" class="flex-holder" fxLayoutGap="20px">
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>people</md-icon>
+      <md-card-title>Employee</md-card-title>
+      <md-card-subtitle>Manage Employee</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/settings/employee/addEmployee']">Add</button>
+      <button md-button [routerLink]="['/settings/employee/allEmployees']">View</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>date_range</md-icon>
+      <md-card-title>Holiday</md-card-title>
+      <md-card-subtitle>Manage Holiday</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/settings/holiday/addHoliday']">Add</button>
+      <button md-button [routerLink]="['/settings/holiday/allHolidays']">View</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
+      <md-icon md-card-avatar>timer</md-icon>
+      <md-card-title>Overtime</md-card-title>
+      <md-card-subtitle>Manage Overtime</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/settings/overTime/addOverTime']">Add</button>
+      <button md-button [routerLink]="['/settings/overTime/allOverTime']">View</button>
+    </md-card-actions>
+  </md-card>
+</div>

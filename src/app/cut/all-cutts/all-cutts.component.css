@@ -1,0 +1,65 @@
+.all-cut-holder{
+  max-height: 100%;
+  overflow: auto;
+  padding-top: 64px;
+}
+.secondary{
+  font-weight: 400;
+  font-size: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+md2-datepicker{
+  position: relative;
+  top: 10px;
+  min-width: 30%;
+}
+
+.printable{
+  text-align: center;
+}
+
+.printable h2{
+  font-size: 20px;
+  line-height: 28px;
+  text-decoration: underline;
+  margin: 0 0 30px;
+}
+.printable h4{
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  line-height: 24px;
+  margin: 0;
+  display: inline-block;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #666;
+}
+
+.printable .row{
+  display: block;
+  text-align: left;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+.printable .row .label{
+  display: inline-block;
+  width: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 48%;
+}
+.printable .row .val{
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  width: 150px;
+  max-width: 48%;
+}
+.printable .row .val.total{
+  font-weight: 600;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}

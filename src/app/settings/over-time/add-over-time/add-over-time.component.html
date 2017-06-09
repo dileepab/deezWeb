@@ -1,0 +1,22 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+  <form name="addOverTimeForm" class="example-form" #addOverTimeForm="ngForm">
+
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+                    [(ngModel)]="overTime.date" name="date"
+                    placeholder="Date" type="date" required=""></md2-datepicker>
+
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+    [(ngModel)]="overTime.startTime" name="startTime"
+    placeholder="Start Time" type="datetime" required></md2-datepicker>
+
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+    [(ngModel)]="overTime.endTime" name="endTime"
+    placeholder="End Time" type="datetime" required></md2-datepicker>
+
+    <button type="button" md-raised-button [routerLink]="['/settings/']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+    <button type="button" md-raised-button (click)="addOverTime()" disabled="{{loading || !addOverTimeForm.valid}}" color="warn">Add
+      Over Time
+    </button>
+  </form>
+</div>

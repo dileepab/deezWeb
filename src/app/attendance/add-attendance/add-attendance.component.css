@@ -1,0 +1,50 @@
+.file-upload{
+    display: inline-block;
+}
+.file-name{
+    height: 36px;
+    width: 250px;
+    max-width: calc(100% - 190px);
+}
+.file-upload input{
+    position: absolute;
+    font-size:1px;
+    opacity:0;
+    height:1px;
+    width:1px;
+    visibility: hidden;
+}
+.attendance-table{
+    table-layout: fixed;
+    text-align: center;
+}
+.table-header-data{
+    height: 24px;
+}
+
+.table-data{
+    display: block;
+    height: calc(100vh - 189px);
+    overflow: auto;
+}
+
+@media (max-width: 767px) {
+    .table-header-data thead th:nth-child(1),
+    .table-header-data thead th:nth-child(2),
+    .table-header-data thead th:nth-child(3),
+    .table-header-data thead th:nth-child(5),
+    .table-header-data thead th:nth-child(6),
+    .table-header-data thead th:nth-child(7),
+    .table-header-data thead th:nth-child(8){
+        display: none;
+    }
+    .table-data tbody td:nth-child(1),
+    .table-data tbody td:nth-child(2),
+    .table-data tbody td:nth-child(3),
+    .table-data tbody td:nth-child(5),
+    .table-data tbody td:nth-child(6),
+    .table-data tbody td:nth-child(7),
+    .table-data tbody td:nth-child(8){
+        display: none;
+    }
+}

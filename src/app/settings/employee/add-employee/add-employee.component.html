@@ -1,0 +1,53 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="flex-holder">
+  <form name="addEmployeeForm" class="example-form" #addEmployeeForm="ngForm">
+
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.initials"
+             name="initials" placeholder="Initials (A.M.)">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.firstName" required
+             name="firstname" placeholder="First Name">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.lastName" required
+             name="lastname" placeholder="Last Name">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.nic"
+             name="nic" placeholder="NIC">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.contactNo"
+             name="contactNo" placeholder="Contact No">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.uid" required
+             name="uid" placeholder="UID">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.salary" required
+             name="salary" placeholder="Salary">
+    </md-input-container>
+
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+                    [(ngModel)]="employee.joinDate" name="joinDate"
+                    placeholder="Joined Date"></md2-datepicker>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.username" required
+             name="username" placeholder="User Name">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="password" [(ngModel)]="employee.password" required
+             name="password" placeholder="Password">
+    </md-input-container>
+
+
+    <button type="button" md-raised-button [routerLink]="['/settings/']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+    <button type="button" md-raised-button (click)="addEmployee()" disabled="{{loading || !addEmployeeForm.valid}}" color="warn">Add
+      Employee
+    </button>
+
+  </form>
+</div>
