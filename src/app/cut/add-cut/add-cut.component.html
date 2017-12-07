@@ -6,11 +6,11 @@
                         placeholder="Date"></md2-datepicker>
 
         <md-input-container class="example-full-width">
-            <input mdInput type="text" [(ngModel)]="cut.noOfYards" required
+            <input mdInput type="number" [(ngModel)]="cut.noOfYards" required
                    name="noOfYards" placeholder="No Of Yards">
         </md-input-container>
         <md-input-container class="example-full-width">
-            <input mdInput type="text" [(ngModel)]="cut.yardPrice" required
+            <input mdInput type="number" [(ngModel)]="cut.yardPrice" required
                    name="yardPrice" placeholder="Yard Price (Rs.)">
         </md-input-container>
         <table class="example-full-width form-table" cellspacing="0">
@@ -22,7 +22,7 @@
                 </td>
                 <td>
                     <md-input-container class="example-full-width">
-                        <input name="price-{{idx}}" mdInput placeholder="Value (Rs.)" [(ngModel)]="item.price" value="">
+                        <input name="price-{{idx}}" type="number" mdInput placeholder="Value (Rs.)" [(ngModel)]="item.price" value="">
                     </md-input-container>
                 </td>
                 <td width="40px" style="vertical-align: top">
@@ -36,15 +36,15 @@
             </tr>
         </table>
         <md-input-container class="example-full-width">
-            <input mdInput type="text" [(ngModel)]="cut.noOfPieces" required
+            <input mdInput type="number" [(ngModel)]="cut.noOfPieces" required
                    name="noOfPieces" placeholder="No Of Pieces">
         </md-input-container>
         <md-input-container class="example-full-width">
-            <input mdInput type="text" [(ngModel)]="cut.piecePrice"  name="piecePrice"
+            <input mdInput type="number" [(ngModel)]="cut.piecePrice"  name="piecePrice"
                    placeholder="Piece Price (Rs.)">
         </md-input-container>
         <md-input-container class="example-full-width">
-            <input mdInput type="text" [(ngModel)]="cut.patternNo"  name="patternNo"
+            <input mdInput type="number" [(ngModel)]="cut.patternNo"  name="patternNo"
                    placeholder="Pattern No">
         </md-input-container>
 

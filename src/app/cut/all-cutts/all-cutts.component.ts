@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Cut} from '../../shared/sdk/models/Cut';
 import {CutApi} from '../../shared/sdk/services/custom/Cut';
 import {TitleService} from '../../services/title.service';
-import {MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar} from '@angular/material';
+import {MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {LoopBackAuth} from '../../shared/sdk/services/core/auth.service';
 
 @Component({
   selector: 'app-all-cutts',
@@ -15,20 +16,24 @@ export class AllCuttsComponent implements OnInit {
   public cuts: Cut[] = new Array<Cut>();
   public startDate: Date;
   public endDate: Date;
+  public token: any;
+  public userRole: any;
 
   constructor(public cutApi: CutApi,
               private titleService: TitleService,
               public dialog: MdDialog,
+              public authService: LoopBackAuth,
               public snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
 
+    this.token = this.authService.getToken();
+    this.userRole = this.token.user.user.userRole;
 
     const date = new Date();
-    this.startDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-    this.endDate = new Date(date.getFullYear(), date.getMonth() - 1, new Date(date.getFullYear()
-      , date.getMonth(), 0).getDate());
+    this.startDate = new Date(2017, 0, 1);
+    this.endDate = new Date();
 
     this.titleService.sendTitle('All Cuts');
 
@@ -38,10 +43,10 @@ export class AllCuttsComponent implements OnInit {
         date: {between: [this.startDate.setHours(0, 0, 0, 0), this.endDate.setHours(0, 0, 0, 0) + 1000 * 60 * 60 * 24]}
       }
     }).subscribe(
-      (cuts: Cut[]) => this.cuts = cuts,
+      (cuts: any) => this.cuts = cuts,
       err => {
 
-        this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection', 'DISMISS', {
+        this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection', 'DISMISS', <MdSnackBarConfig>{
           duration: 5000,
         });
       }
@@ -53,19 +58,44 @@ export class AllCuttsComponent implements OnInit {
     this.cutApi.find({
       order: 'date DESC',
       where: {
-        date: {between: [this.startDate.setHours(0, 0, 0, 0), this.endDate.setHours(0, 0, 0, 0) + 1000 * 60 * 60 * 24]}
+        deliverDate: {between: [this.startDate.setHours(0, 0, 0, 0), this.endDate.setHours(0, 0, 0, 0) + 1000 * 60 * 60 * 24]}
       }
     }).subscribe(
-      (cuts: Cut[]) => this.cuts = cuts,
+      (cuts: any) => this.cuts = cuts,
       err => {
 
-        this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection', 'DISMISS', {
+        this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection', 'DISMISS', <MdSnackBarConfig>{
           duration: 5000,
         });
       }
     );
   }
 
+  deleteCut(event: any, cut: any): void {
+    event.stopPropagation();
+    const config = new MdDialogConfig();
+    const dialogRef: MdDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cutApi.deleteById(cut.id).subscribe(
+          (res: any) => {
+            this.snackBar.open('Successfully deleted', 'DISMISS', <MdSnackBarConfig>{
+              duration: 5000,
+            });
+
+            const index = this.cuts.indexOf(cut);
+            this.cuts.splice(index, 1);
+
+          },
+          (err: any) => {
+            this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection', 'DISMISS', <MdSnackBarConfig>{
+              duration: 5000,
+            });
+          }
+        );
+      }
+    });
+  }
 
   /*print dialog*/
   openPrintDialog(): void {
@@ -132,4 +162,20 @@ export class RevenueDialogComponent implements OnInit {
     }
     return otherCost;
   }
+}
+
+@Component({
+  selector: 'app-confirm-dialog',
+  template: `
+    <h2 md-dialog-title>Delete</h2>
+    <md-dialog-content>Are you sure?</md-dialog-content>
+    <md-dialog-actions>
+      <button md-button md-dialog-close>No</button>
+      <!-- Can optionally provide a result for the closing dialog. -->
+      <button md-button [md-dialog-close]="true">Yes</button>
+    </md-dialog-actions>`,
+})
+
+export class ConfirmDialogComponent {
+  constructor(public dialogRef: MdDialogRef<ConfirmDialogComponent>) { }
 }

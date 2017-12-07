@@ -46,16 +46,18 @@
       <tbody>
       <tr *ngFor="let row of attendanceBody">
         <td> {{row.date | date : 'MMM dd - EEE'}}</td>
-        <td><span class="time-span" *ngIf="!row.inTimeEdit" (click)="row.inTimeEdit = true"> {{row.inTime.dateTime | date : 'HH : mm : ss'}}</span>
-          <md2-datepicker *ngIf="row.inTimeEdit" container="dialog" openOnFocus="true" required
+        <td><span class="time-span" *ngIf="!row.inTimeEdit" (click)="row.inTimeEdit = true; changeAttendance(row)"> {{row.inTime.dateTime | date : 'HH : mm : ss'}}</span>
+          <md2-datepicker *ngIf="row.inTimeEdit" container="dialog" openOnFocus="true" required [min]="minDate" [max]="maxDate"
                           [(ngModel)]="row.inTime.dateTime" name="deliverDate" type="datetime"
                           placeholder="Deliver Date"></md2-datepicker>
         </td>
-        <td><span class="time-span" *ngIf="!row.outTimeEdit" (click)="row.outTimeEdit = true">{{row.outTime.dateTime | date : 'HH : mm : ss'}}</span>
-          <md2-datepicker *ngIf="row.outTimeEdit" container="dialog" openOnFocus="true" required
+        <td><span class="time-span" *ngIf="!row.outTimeEdit" (click)="row.outTimeEdit = true; changeAttendance(row)">{{row.outTime.dateTime | date : 'HH : mm : ss'}}</span>
+          <md2-datepicker *ngIf="row.outTimeEdit" container="dialog" openOnFocus="true" required [min]="minDate" [max]="maxDate"
                           [(ngModel)]="row.outTime.dateTime" name="deliverDate" type="datetime"
                           placeholder="Deliver Date"></md2-datepicker>
         </td>
+        <!--<td><span class="time-span">{{row.lateTime / (1000 * 60) | number :'1.2-2'}}</span></td>-->
+        <td><span class="time-span">{{row.lateTime > 0 ? getTimeDifference(row.lateTime) : ''}}</span></td>
         <td> {{row.status}}
 
           <a md-raised-button *ngIf="row.inTimeEdit || row.outTimeEdit" (click)="updateTime(row)" href="javascript:"

@@ -42,6 +42,20 @@ html {
     box-sizing: inherit;
 }
 
+.printOnly {
+  display: none;
+}
+
+.printable{
+  position: relative;
+}
+
+.print-btn{
+  position: absolute !important;
+  right: 20px;
+  top: 20px;
+}
+
 @media print {
   * {visibility: hidden;}
 
@@ -55,6 +69,14 @@ html {
     left: 0;
     top: 0;
     padding: 50px;
+    visibility: visible;
+  }
+  .print-btn{
+    display: none;
+  }
+  .printOnly {
+    padding-top: 20px;
+    display: block;
   }
 
   .printable * {
@@ -159,5 +181,16 @@ input:-webkit-autofill {
 
 .target-table{
   border-spacing: 10px;
+}
+
+@media (max-width: 480px) {
+
+  .target-table{
+    border-spacing: 5px;
+    margin: 5px 0;
+  }
+  .target-table tr td:first-child{
+    display: none;
+  }
 }
 

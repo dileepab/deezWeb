@@ -3,7 +3,7 @@ import {CutApi} from '../../shared/sdk/services/custom/Cut';
 import {TitleService} from '../../services/title.service';
 import {Cut} from '../../shared/sdk/models/Cut';
 import {OtherMaterial} from '../../shared/otherMaterial';
-import {MdSnackBar} from '@angular/material';
+import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class AddCutComponent implements OnInit {
 
   public cut: Cut = new Cut();
   public today = new Date();
-  public minDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  public minDate = new Date(new Date().setMonth(new Date().getMonth() - 2));
   customers = [
     {
       name: 'Pettah',
@@ -61,14 +61,14 @@ export class AddCutComponent implements OnInit {
         this.cut = new Cut();
         this.cut.otherMaterials = [];
         this.cut.otherMaterials.push(new OtherMaterial());
-        this.snackBar.open('Successfully Added', 'DISMISS', {
+        this.snackBar.open('Successfully Added', 'DISMISS', <MdSnackBarConfig>{
           duration: 5000,
         });
       },
       err => {
 
         this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection',
-          (err.statusCode === 401 ? this.router.navigate(['/auth/logout']) : false) && 'DISMISS', {
+          (err.statusCode === 401 ? this.router.navigate(['/auth/logout']) : false) && 'DISMISS', <MdSnackBarConfig>{
             duration: 5000
           });
         this.loading = false;
