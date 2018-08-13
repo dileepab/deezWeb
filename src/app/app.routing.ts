@@ -6,6 +6,10 @@ import {AuthGuard} from './services/auth.guard';
 
 const appRoutes: Routes = [
   {path: '', canActivate: [AuthGuard], component: HomeComponent},
+  // {
+  //   path: 'pattern',
+  //   loadChildren: 'app/pattern/pattern.module#PatternModule'
+  // },
   {path: 'addRole', canActivate: [AuthGuard], component: AddRoleComponent},
   {
     path: 'cut',
@@ -27,9 +31,13 @@ const appRoutes: Routes = [
     path: 'pattern',
     loadChildren: 'app/pattern/pattern.module#PatternModule'
   },
+  {
+    path: 'target',
+    loadChildren: 'app/target/target.module#TargetModule'
+  },
 
   // otherwise redirect to home
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: 'pattern'}
 
 ];
 

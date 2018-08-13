@@ -3,13 +3,13 @@
 
     <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
                     [(ngModel)]="overTime.date" name="date"
-                    placeholder="Date" type="date" required=""></md2-datepicker>
+                    placeholder="Date" type="date" required="" (change)="changeOtDate($event)"></md2-datepicker>
 
-    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true" [min]="minDate" [max]="maxDate"
     [(ngModel)]="overTime.startTime" name="startTime"
     placeholder="Start Time" type="datetime" required></md2-datepicker>
 
-    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
+    <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true" [min]="minDate" [max]="maxDate"
     [(ngModel)]="overTime.endTime" name="endTime"
     placeholder="End Time" type="datetime" required></md2-datepicker>
 

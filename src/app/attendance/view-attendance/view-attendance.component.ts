@@ -38,6 +38,7 @@ export class ViewAttendanceComponent implements OnInit {
   public workDays: any;
   public lateTime: any;
   public otTime: any;
+  public inTime: any;
   public incentive: any = 0;
 
   public businessDays: any;
@@ -46,7 +47,7 @@ export class ViewAttendanceComponent implements OnInit {
   public leavePenalty: any;
   public latePenalty: any;
   public attendanceBonus: any;
-  public workingDays = 26;
+  public workingDays = 22;
 
   constructor(private titleService: TitleService, private employeeApi: EmployeeApi,
               private attendanceApi: AttendanceApi, private holidayApi: HolidayApi, private overTimeApi: OverTimeApi,
@@ -58,11 +59,15 @@ export class ViewAttendanceComponent implements OnInit {
 
     const date = new Date();
     this.startDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-    this.endDate = new Date(date.getFullYear(), date.getMonth() , 1);
+    this.endDate = new Date(date.getFullYear(), date.getMonth(), 1);
 
     this.titleService.sendTitle('View Attendance');
 
-    this.employeeApi.find().subscribe(
+    this.employeeApi.find({
+      where: {
+        isActive: true,
+      }
+    }).subscribe(
       (employees: Employee[]) => {
         this.employees = employees;
       }
@@ -145,7 +150,8 @@ export class ViewAttendanceComponent implements OnInit {
         this.currentMonth.push({
           holiday: [],
           overtime: [],
-          weekend: true
+          weekend: true,
+          saturday: strtDate.getDay() === 6
         });
       }
     }
@@ -154,7 +160,7 @@ export class ViewAttendanceComponent implements OnInit {
     this.holidayApi.find({
       'where': {
         'date': {
-          between: [this.startDate.setHours(0, 0, 0, 0), this.endDate.setHours(0, 0, 0, 0) + 1000 * 60 * 60 * 24]
+          between: [this.startDate.setHours(0, 0, 0, 0), this.endDate.setHours(0, 0, 0, 0)]
         }
       }
     }).subscribe(
@@ -219,6 +225,7 @@ export class ViewAttendanceComponent implements OnInit {
           this.workDays = 0;
           this.lateTime = 0;
           this.otTime = 0;
+          this.inTime = this.selectedEmployee.inTime || '7:30';
 
           const strtDate = new Date(this.startDate);
 
@@ -243,7 +250,14 @@ export class ViewAttendanceComponent implements OnInit {
             if (times.length > 0) {
               inTime = times[0];
               outTime = times.length > 1 ? times[times.length - 1] : new Attendance();
-              row = {date: attendanceDate, inTime: inTime, outTime: outTime, inTimeEdit: false, lateTime: 0};
+              row = {
+                date: attendanceDate,
+                inTime: inTime,
+                outTime: outTime,
+                inTimeEdit: false,
+                lateTime: 0,
+                status: []
+              };
               this.attendances.push(row);
 
             } else {
@@ -252,7 +266,8 @@ export class ViewAttendanceComponent implements OnInit {
                 inTime: new Attendance(),
                 outTime: new Attendance(),
                 inTimeEdit: false,
-                lateTime: 0
+                lateTime: 0,
+                status: [],
               };
               this.attendances.push(row);
             }
@@ -264,6 +279,7 @@ export class ViewAttendanceComponent implements OnInit {
           for (let date = 0; date < this.currentMonth.length - 1; date++) {
 
             const weekEnd = this.currentMonth[date].weekend;
+            const saturday = this.currentMonth[date].saturday;
             const holiday = this.currentMonth[date].holiday;
             const overTime = this.currentMonth[date].overtime;
 
@@ -278,23 +294,28 @@ export class ViewAttendanceComponent implements OnInit {
 
               // check attendance exist
               if (!inTime) {
-                this.attendances[date].status = 'LEAVE';
+                this.attendances[date].status.push('LEAVE');
                 this.leave++;
                 // this.calculateAttendanceBonus();
-              } else if (inTime) {
+              }
+              // check in time
+              else if (inTime) {
 
                 // check intime
-                if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(13, 0, 0, 0)).getTime()) {
-                  this.attendances[date].status = 'LEAVE';
+                if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  this.attendances[date].status.push('LEAVE');
                   this.leave++;
                   // this.calculateAttendanceBonus();
                 } else if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(12, 0, 0, 0)).getTime()) {
                   this.leave += .5;
                   this.workDays += .5;
                   // this.calculateAttendanceBonus();
-                  this.attendances[date].status = 'HALF DAY MO..';
-                } else if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(8, 0, 0, 0)).getTime()) {
-                  const lateTime = attendanceStartTime - new Date(new Date(this.attendances[date].date).setHours(8, 0, 0, 0)).getTime();
+                  this.attendances[date].status.push('HALF DAY MO..');
+                } else if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10), parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  const lateTime = attendanceStartTime - new Date(new Date(this.attendances[date].date).setHours(
+                      parseInt(this.inTime.split(':')[0], 10), parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime();
                   this.attendances[date].lateTime += lateTime;
                   this.lateTime += lateTime;
                   this.workDays += 1;
@@ -304,22 +325,26 @@ export class ViewAttendanceComponent implements OnInit {
               // check out time
               if (outTime) {
                 if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(12, 0, 0, 0)).getTime()) {
-                  this.attendances[date].status = 'LEAVE';
+                  this.attendances[date].status.push('LEAVE');
                   this.leave++;
                   // this.calculateAttendanceBonus();
                 } else if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(14, 0, 0, 0)).getTime()) {
                   this.leave += .5;
                   this.workDays += .5;
 
-                  if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(13, 0, 0, 0)).getTime()) {
-                    const lateTime = new Date(new Date(this.attendances[date].date).setHours(13, 0, 0, 0)).getTime() - attendanceEndTime;
+                  if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(
+                      parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                    const lateTime = new Date(new Date(this.attendances[date].date).setHours(
+                        parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime() - attendanceEndTime;
                     this.attendances[date].lateTime += lateTime;
                     this.lateTime += lateTime;
                   }
                   // this.calculateAttendanceBonus();
-                  this.attendances[date].status = 'HALF DAY EV..';
-                } else if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(18, 0, 0, 0)).getTime()) {
-                  const lateTime = new Date(new Date(this.attendances[date].date).setHours(18, 0, 0, 0)).getTime() - attendanceEndTime;
+                  this.attendances[date].status.push('HALF DAY EV..');
+                } else if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10) + 9, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  const lateTime = new Date(new Date(this.attendances[date].date).setHours(
+                      parseInt(this.inTime.split(':')[0], 10) + 9, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime() - attendanceEndTime;
                   this.attendances[date].lateTime += lateTime;
                   this.lateTime += lateTime;
                   this.workDays += 1;
@@ -335,23 +360,102 @@ export class ViewAttendanceComponent implements OnInit {
 
                   if (otStartTime >= attendanceStartTime && otEndTime <= attendanceEndTime) {
                     this.otTime += (otEndTime - otStartTime);
-                    this.attendances[date].status = 'OT Ev.. ';
+                    this.attendances[date].status.push('OT Ev.. ');
                   } else if (otStartTime < attendanceStartTime && otEndTime < attendanceEndTime) {
-                    this.otTime += (otEndTime -  attendanceStartTime > 1000 * 60 * 20 ? otEndTime -  attendanceStartTime : 0);
-                    this.attendances[date].status = 'OT Ev.. ';
+                    this.otTime += (otEndTime - attendanceStartTime > 1000 * 60 * 20 ? otEndTime - attendanceStartTime : 0);
+                    this.attendances[date].status.push('OT Ev.. ');
                   } else if (otStartTime > attendanceStartTime && otEndTime > attendanceEndTime) {
-                    if ((attendanceEndTime -  otStartTime) > 1000 * 60 * 20) {
-                      this.otTime += (attendanceEndTime -  otStartTime);
-                      this.attendances[date].status = 'OT Ev.. ';
+                    if ((attendanceEndTime - otStartTime) > 1000 * 60 * 20) {
+                      this.otTime += (attendanceEndTime - otStartTime);
+                      this.attendances[date].status.push('OT Ev.. ');
                     }
                   } else if (otStartTime < attendanceStartTime && otEndTime > attendanceEndTime) {
 
                     if ((attendanceEndTime - attendanceStartTime) > 1000 * 60 * 60) {
                       this.otTime += (attendanceEndTime - attendanceStartTime);
-                      this.attendances[date].status = 'OT Ev.. ';
+                      this.attendances[date].status.push('OT Ev.. ');
                     }
                   } else {
-                    this.attendances[date].status = 'OT LEAVE';
+                    this.attendances[date].status.push('OTL');
+                  }
+                }
+              }
+
+            }
+            // check date is weekend && not holiday && not overtime (normal working day)
+            else if (weekEnd && saturday && holiday.length === 0) {
+
+              // check attendance exist
+              if (!inTime) {
+                this.attendances[date].status.push('LEAVE');
+                this.leave+= .5;
+                // this.calculateAttendanceBonus();
+              }
+              // check in time
+              else if (inTime) {
+
+                // check intime
+                if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  this.attendances[date].status.push('LEAVE');
+                  this.leave+= .5;
+                  // this.calculateAttendanceBonus();
+                } else if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(12, 0, 0, 0)).getTime()) {
+                  this.leave += .5;
+                  this.workDays += .5;
+                  // this.calculateAttendanceBonus();
+                  this.attendances[date].status.push('HALF DAY MO..');
+                } else if (attendanceStartTime > new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10), parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  const lateTime = attendanceStartTime - new Date(new Date(this.attendances[date].date).setHours(
+                      parseInt(this.inTime.split(':')[0], 10), parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime();
+                  this.attendances[date].lateTime += lateTime;
+                  this.lateTime += lateTime;
+                  this.workDays += 1;
+                }
+              }
+
+              // check out time
+              if (outTime) {
+                if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(12, 0, 0, 0)).getTime()) {
+                  this.attendances[date].status.push('LEAVE');
+                  this.leave++;
+                } else if (attendanceEndTime < new Date(new Date(this.attendances[date].date).setHours(
+                    parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime()) {
+                  const lateTime = new Date(new Date(this.attendances[date].date).setHours(
+                      parseInt(this.inTime.split(':')[0], 10) + 5, parseInt(this.inTime.split(':')[1], 10), 0, 0)).getTime() - attendanceEndTime;
+                  this.attendances[date].lateTime += lateTime;
+                  this.lateTime += lateTime;
+                  this.workDays += .5;
+                }
+              }
+
+              if (overTime.length !== 0) {
+
+                for (let i = 0; i < overTime.length; i++) {
+
+                  const otStartTime = new Date(overTime[i].startTime).getTime();
+                  const otEndTime = new Date(overTime[i].endTime).getTime();
+
+                  if (otStartTime >= attendanceStartTime && otEndTime <= attendanceEndTime) {
+                    this.otTime += (otEndTime - otStartTime);
+                    this.attendances[date].status.push('OT Ev.. ');
+                  } else if (otStartTime < attendanceStartTime && otEndTime < attendanceEndTime) {
+                    this.otTime += (otEndTime - attendanceStartTime > 1000 * 60 * 20 ? otEndTime - attendanceStartTime : 0);
+                    this.attendances[date].status.push('OT Ev.. ');
+                  } else if (otStartTime > attendanceStartTime && otEndTime > attendanceEndTime) {
+                    if ((attendanceEndTime - otStartTime) > 1000 * 60 * 20) {
+                      this.otTime += (attendanceEndTime - otStartTime);
+                      this.attendances[date].status.push('OT Ev.. ');
+                    }
+                  } else if (otStartTime < attendanceStartTime && otEndTime > attendanceEndTime) {
+
+                    if ((attendanceEndTime - attendanceStartTime) > 1000 * 60 * 60) {
+                      this.otTime += (attendanceEndTime - attendanceStartTime);
+                      this.attendances[date].status.push('OT Ev.. ');
+                    }
+                  } else {
+                    this.attendances[date].status.push('OTL');
                   }
                 }
               }
@@ -364,33 +468,33 @@ export class ViewAttendanceComponent implements OnInit {
               if (inTime && outTime) {
                 if (otStartTime >= attendanceStartTime && otEndTime <= attendanceEndTime) {
                   this.otTime += (otEndTime - otStartTime);
-                  this.attendances[date].status = 'OT..';
+                  this.attendances[date].status.push('OT..');
                 } else if (otStartTime < attendanceStartTime && otEndTime <= attendanceEndTime) {
-                  this.otTime += (otEndTime -  attendanceStartTime);
-                  this.attendances[date].status = 'OT..';
+                  this.otTime += (otEndTime - attendanceStartTime);
+                  this.attendances[date].status.push('OT..');
                 } else if (otStartTime >= attendanceStartTime && otEndTime > attendanceEndTime) {
-                  if ((attendanceEndTime -  otStartTime) > 1000 * 60 * 60) {
-                    this.otTime += (attendanceEndTime -  otStartTime);
-                    this.attendances[date].status = 'OT..';
+                  if ((attendanceEndTime - otStartTime) > 1000 * 60 * 60) {
+                    this.otTime += (attendanceEndTime - otStartTime);
+                    this.attendances[date].status.push('OT..');
                   }
                 } else if (otStartTime < attendanceStartTime && otEndTime > attendanceEndTime) {
 
                   if ((attendanceEndTime - attendanceStartTime) > 1000 * 60 * 60) {
                     this.otTime += (attendanceEndTime - attendanceStartTime);
-                    this.attendances[date].status = 'OT..';
+                    this.attendances[date].status.push('OT..');
                   }
                 } else {
-                  this.attendances[date].status = 'OT LEAVE';
+                  this.attendances[date].status.push('OTL');
                   // this.calculateAttendanceBonus();
                 }
               } else {
-                this.attendances[date].status = 'OT LEAVE';
+                this.attendances[date].status.push('OTL');
                 // this.calculateAttendanceBonus();
               }
-            } else if (weekEnd ) {
-              this.attendances[date].status = 'WEEK END';
-            } else if (holiday.length !== 0 ) {
-              this.attendances[date].status = 'HOLIDAY';
+            } else if (weekEnd) {
+              this.attendances[date].status.push('WEEK END');
+            } else if (holiday.length !== 0) {
+              this.attendances[date].status.push('HOLIDAY');
             }
 
 
@@ -431,7 +535,8 @@ export class ViewAttendanceComponent implements OnInit {
     this.businessDays = this.calcBusinessDays(this.startDate, this.endDate);
     this.basicSalary = this.selectedEmployee.salary;
     this.overTime = (this.basicSalary / (200 * 60 )) * (this.otTime / (1000 * 60)) * 1.5 || 0;
-    this.leavePenalty = (this.basicSalary / this.workingDays) * this.calculatedLeave();
+    // this.leavePenalty = (this.basicSalary / this.workingDays) * this.calculatedLeave();
+    this.leavePenalty = (this.basicSalary / this.businessDays) * this.leave;
     this.latePenalty = (this.basicSalary / (this.workingDays * 9 * 60 )) * (this.lateTime / (1000 * 60));
     this.attendanceBonus = this.calculateAttendanceBonus();
   }
@@ -452,7 +557,7 @@ export class ViewAttendanceComponent implements OnInit {
     end.setHours(0, 0, 0, 0);
 
     const current = new Date(start);
-    current.setDate(current.getDate() + 1);
+    // current.setDate(current.getDate() + 1);
     let day;
     // loop through each day, checking
     while (current < end) {
@@ -462,6 +567,7 @@ export class ViewAttendanceComponent implements OnInit {
       }
       current.setDate(current.getDate() + 1);
     }
+    this.workingDays = totalBusinessDays;
     return totalBusinessDays - this.holidays.length;
   }
 
@@ -489,8 +595,8 @@ export class ViewAttendanceComponent implements OnInit {
 
   calculatedLeave(): any {
     return this.leave > 8 ? (this.workingDays - this.businessDays + this.leave)
-      : this.leave > 5 ? (this.leave + 2)
-        : this.leave > 2.5 ? (this.leave + 1)
+      : this.leave > 5 ? (this.leave + 1)
+        : this.leave > 2.5 ? (this.leave + .5)
           : this.leave;
   }
 

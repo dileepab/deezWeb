@@ -2,6 +2,13 @@
   max-height: 100%;
   overflow: auto;
   padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.all-cut-holder .mat-nav-list{
+  flex: 1 1 auto;
+  overflow: auto;
 }
 .secondary{
   font-weight: 400;
@@ -10,6 +17,7 @@
   top: 0;
   left: 0;
   z-index: 1;
+  flex: 0 0 auto;
 }
 md2-datepicker{
   position: relative;

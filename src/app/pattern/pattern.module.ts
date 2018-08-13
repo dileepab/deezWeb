@@ -7,7 +7,8 @@ import { PatternComponent } from './pattern.component';
 import {PatternRoutingModule} from './pattern.routing.module';
 import {FormsModule} from '@angular/forms';
 import {SDKBrowserModule} from '../shared/sdk/index';
-import {MdButtonModule, MdIconModule, MdInputModule, MdListModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdIconModule, MdInputModule, MdListModule} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -18,7 +19,9 @@ import {MdButtonModule, MdIconModule, MdInputModule, MdListModule} from '@angula
     MdInputModule,
     MdIconModule,
     MdButtonModule,
-    MdListModule
+    MdListModule,
+    FlexLayoutModule,
+    MdCheckboxModule
   ],
   declarations: [AddPatternComponent, AllPatternComponent, ViewPatternComponent, PatternComponent]
 })

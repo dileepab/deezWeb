@@ -1,5 +1,5 @@
 <div fxLayout="column" class="flex-holder">
   <md-list class="example-full-width">
-    <md-list-item *ngFor="let ot of overTimes; let idx = index">{{ot.date | date : 'yyyy MMM dd'}},  Start : {{ot.startTime | date : 'yyyy MMM dd hh MM'}} - End : {{ot.endTime | date : 'yyyy MMM dd hh MM'}} <md-icon (click)="removeOverTime(ot, idx)">delete</md-icon></md-list-item>
+    <md-list-item *ngFor="let ot of overTimes; let idx = index">{{ot.date | date : 'yyyy MMM dd'}}, - | -  Start : {{ot.startTime | date : 'yyyy MMM dd - HH : MM'}} - | - End : {{ot.endTime | date : 'yyyy MMM dd - HH:MM'}} <md-icon (click)="removeOverTime(ot, idx)">delete</md-icon></md-list-item>
   </md-list>
 </div>

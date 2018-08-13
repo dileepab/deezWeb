@@ -13,6 +13,8 @@ export class AddOverTimeComponent implements OnInit {
 
   public overTime: OverTime = new OverTime();
   public  loading = false;
+  public  minDate: Date;
+  public  maxDate: Date;
 
   constructor(private overTimeApi: OverTimeApi,
               public snackBar: MdSnackBar,
@@ -37,6 +39,12 @@ export class AddOverTimeComponent implements OnInit {
           });
       }
     );
+  }
+
+  // getMinDate
+  changeOtDate(event: any) {
+    this.minDate = new Date(event.value);
+    this.maxDate = new Date(new Date(event.value).setDate(new Date(event.value).getDate() + 1));
   }
 
 }

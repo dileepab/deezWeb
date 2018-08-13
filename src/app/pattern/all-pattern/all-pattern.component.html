@@ -3,7 +3,7 @@
 <md-nav-list>
   <!--<md-subheader class="md-no-sticky">3 line item (with hover)</md-subheader>-->
   <md-list-item *ngFor="let item of patterns" [routerLink]="['/pattern/viewPattern', item.id]">
-    <img md-list-avatar src="" alt="avatar">
+    <img md-list-avatar src="https://lh3.google.com/u/1/d/{{item.imgId}}=w40-h40" alt="avatar">
     <h2 md-line>Pattern No : {{ item.name }} </h2>
     <h4 md-line>{{ item.desc }}</h4>
   </md-list-item>

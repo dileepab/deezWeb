@@ -9,6 +9,7 @@ export interface EmployeeInterface {
   "firstName": string;
   "lastName"?: string;
   "nic"?: string;
+  "bocAccountNo"?: string;
   "uid"?: string;
   "joinDate"?: Date;
   "email"?: Date;
@@ -16,6 +17,9 @@ export interface EmployeeInterface {
   "salary"?: string;
   "designation"?: string;
   "contactNo"?: string;
+  "isActive"?: boolean;
+  "inTime"?: any;
+  "outTime"?: any;
   "realm"?: string;
   "username"?: string;
   "password": string;
@@ -33,6 +37,7 @@ export class Employee implements EmployeeInterface {
   "firstName": string;
   "lastName": string;
   "nic": string;
+  "bocAccountNo": string;
   "uid": string;
   "joinDate": Date;
   "email": Date;
@@ -40,6 +45,9 @@ export class Employee implements EmployeeInterface {
   "salary": string;
   "designation": string;
   "contactNo": string;
+  "isActive": boolean;
+  "inTime": any;
+  "outTime": any;
   "realm": string;
   "username": string;
   "password": string;
@@ -97,6 +105,10 @@ export class Employee implements EmployeeInterface {
           name: 'nic',
           type: 'string'
         },
+        "bocAccountNo": {
+          name: 'bocAccountNo',
+          type: 'string'
+        },
         "uid": {
           name: 'uid',
           type: 'string'
@@ -124,6 +136,18 @@ export class Employee implements EmployeeInterface {
         "contactNo": {
           name: 'contactNo',
           type: 'string'
+        },
+        "isActive": {
+          name: 'isActive',
+          type: 'boolean'
+        },
+        "inTime": {
+          name: 'inTime',
+          type: 'any'
+        },
+        "outTime": {
+          name: 'outTime',
+          type: 'any'
         },
         "realm": {
           name: 'realm',

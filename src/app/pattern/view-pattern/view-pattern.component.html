@@ -1,3 +1,70 @@
-<p>
-  view-pattern works!
-</p>
+<div class="flex-holder">
+  <form name="addPatternForm" class="example-form" #addPatternForm="ngForm">
+
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="pattern.name" required (change)="patNoChange()"
+             name="name" placeholder="Pattern Number (xxx)">
+    </md-input-container>
+
+    <md-checkbox name="isActive" [(ngModel)]="pattern.isActive">Active</md-checkbox>
+
+    <md-input-container class="example-full-width">
+                <textarea mdInput [(ngModel)]="pattern.desc" md-maxlength="150" rows="3"
+                          name="desc" placeholder="Desc"></textarea>
+    </md-input-container>
+
+    <!--<label class="file-upload">-->
+      <!--<input type="file" (change)="changeListener($event)" accept="image/*" #fileInput>-->
+      <!--<a md-raised-button href="javascript:" (click)="fileInput.click()" mdTooltip="Upload" disabled="{{loading}}"><md-icon>attachment</md-icon></a>-->
+    <!--</label>-->
+
+    <img *ngIf="!imgLoaded" class="preview" src="{{pattern.imgLink}}" alt="prev"/>
+    <!--<img *ngIf="imgLoaded" class="preview" src="{{imageSrc}}" alt="prev"/>-->
+
+    <table class="example-full-width target-table" cellspacing="0">
+      <tbody>
+      <tr *ngFor="let item of pattern.operations; let idx = index">
+        <td width="80px">
+          <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="item.code" disabled
+                   name="{{item.code}}" placeholder="Op Code">
+          </md-input-container>
+        </td>
+        <td>
+          <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="item.descEn"
+                   name="descEn{{idx}}" placeholder="English Description">
+          </md-input-container>
+          <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="item.descSi"
+                   name="descSi{{idx}}" placeholder="සිංහල විස්තරය">
+          </md-input-container>
+        </td>
+        <td width="60px">
+          <md-input-container class="example-full-width">
+            <input mdInput type="text" [(ngModel)]="item.target"
+                   name="target{{idx}}" placeholder="Target">
+          </md-input-container>
+        </td>
+        <td width="40px">
+          <button *ngIf="idx < pattern.operations.length-1" md-icon-button color="warn" (click)="removeRow(idx)">
+            <md-icon>delete</md-icon>
+          </button>
+          <button *ngIf="idx == pattern.operations.length-1" md-icon-button color="primary" (click)="addNewRow()">
+            <md-icon>add</md-icon>
+          </button>
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+
+    <button type="button" md-raised-button [routerLink]="['/pattern']"><md-icon>keyboard_backspace</md-icon>Back</button>
+
+    <button type="button" md-raised-button (click)="updatePattern()" disabled="{{loading || !addPatternForm.valid}}" color="warn">Update
+      Pattern
+    </button>
+
+  </form>
+</div>

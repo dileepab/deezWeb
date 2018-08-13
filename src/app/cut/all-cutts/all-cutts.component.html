@@ -24,6 +24,9 @@
       <h4 md-line>Pattern No : {{ item.patternNo }} - </h4>
       <h4 md-line>No Of Pieces : {{ item.noOfPieces }}</h4>
       <p md-line> Description : {{ item.note }} </p>
+      <button md-icon-button *ngIf="userRole === 'admin'" (click)="deleteCut($event, item)" color="warn">
+        <md-icon>delete</md-icon>
+      </button>
     </md-list-item>
   </md-nav-list>
 </div>

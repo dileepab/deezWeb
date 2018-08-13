@@ -3,6 +3,9 @@
 declare var Object: any;
 export interface PatternInterface {
   "name": string;
+  "imgLink"?: string;
+  "imgId"?: string;
+  "thumbnailLink"?: string;
   "desc"?: string;
   "isActive"?: boolean;
   "operations"?: any;
@@ -13,6 +16,9 @@ export interface PatternInterface {
 
 export class Pattern implements PatternInterface {
   "name": string;
+  "imgLink": string;
+  "imgId": string;
+  "thumbnailLink": string;
   "desc": string;
   "isActive": boolean;
   "operations": any;
@@ -52,6 +58,18 @@ export class Pattern implements PatternInterface {
       properties: {
         "name": {
           name: 'name',
+          type: 'string'
+        },
+        "imgLink": {
+          name: 'imgLink',
+          type: 'string'
+        },
+        "imgId": {
+          name: 'imgId',
+          type: 'string'
+        },
+        "thumbnailLink": {
+          name: 'thumbnailLink',
           type: 'string'
         },
         "desc": {

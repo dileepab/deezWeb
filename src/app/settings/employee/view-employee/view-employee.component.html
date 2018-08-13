@@ -22,6 +22,10 @@
              name="contactNo" placeholder="Contact No">
     </md-input-container>
     <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.bocAccountNo"
+             name="accountNo" placeholder="BOC Account Number">
+    </md-input-container>
+    <md-input-container class="example-full-width">
       <input mdInput type="text" [(ngModel)]="employee.uid"
              name="uid" placeholder="UID" required>
     </md-input-container>
@@ -29,10 +33,21 @@
       <input mdInput type="text" [(ngModel)]="employee.salary" required
              name="salary" placeholder="Salary">
     </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput type="text" [(ngModel)]="employee.inTime" required
+             name="salary" placeholder="In Time ( H:MM )">
+    </md-input-container>
+    <!--<md-input-container class="example-full-width">-->
+      <!--<input mdInput type="text" [(ngModel)]="employee.inTime" required-->
+             <!--name="salary" placeholder="Out Time ( H:MM )">-->
+    <!--</md-input-container>-->
 
     <md2-datepicker container="dialog" class="example-full-width date-picker" openOnFocus="true"
                     [(ngModel)]="employee.joinDate" name="joinDate"
                     placeholder="Joined Date"></md2-datepicker>
+    <md-checkbox name="isActiveUser" [(ngModel)]="employee.isActive">Is Active User</md-checkbox>
+    <br/>
+    <br/>
 
 
     <button type="button" md-raised-button [routerLink]="['/settings/employee/allEmployees']"><md-icon>keyboard_backspace</md-icon>Back</button>

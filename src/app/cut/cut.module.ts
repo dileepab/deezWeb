@@ -5,10 +5,10 @@ import { ViewCutComponent } from './view-cut/view-cut.component';
 import {CutRoutingModule} from './cut.routing.module';
 import {SDKBrowserModule} from '../shared/sdk/index';
 import {FormsModule} from '@angular/forms';
-import {MaterialModule} from '@angular/material';
+import {MaterialModule, MdDialogModule} from '@angular/material';
 import {Md2Module} from 'md2';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {AllCuttsComponent, RevenueDialogComponent} from './all-cutts/all-cutts.component';
+import {AllCuttsComponent, ConfirmDialogComponent, RevenueDialogComponent} from './all-cutts/all-cutts.component';
 
 @NgModule({
   imports: [
@@ -19,9 +19,10 @@ import {AllCuttsComponent, RevenueDialogComponent} from './all-cutts/all-cutts.c
     FormsModule,
     Md2Module.forRoot(),
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MdDialogModule
   ],
-  declarations: [AddCutComponent, ViewCutComponent, AllCuttsComponent, RevenueDialogComponent],
-  entryComponents: [RevenueDialogComponent]
+  declarations: [AddCutComponent, ViewCutComponent, AllCuttsComponent, RevenueDialogComponent, ConfirmDialogComponent],
+  entryComponents: [RevenueDialogComponent, ConfirmDialogComponent]
 })
 export class CutModule { }

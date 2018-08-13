@@ -15,7 +15,7 @@ export class AllEmployeesComponent implements OnInit {
 
   ngOnInit() {
     this.employeeApi.find().subscribe(
-      (res: Employee[]) => {
+      (res: any) => {
         this.employees = res;
       },
       err => {

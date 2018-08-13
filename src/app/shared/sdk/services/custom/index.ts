@@ -9,5 +9,8 @@ export * from './OverTime';
 export * from './Email';
 export * from './Pattern';
 export * from './Container';
+export * from './SpWorkingDay';
+export * from './ImageFile';
+export * from './Target';
 export * from './SDKModels';
 export * from './logger.service';

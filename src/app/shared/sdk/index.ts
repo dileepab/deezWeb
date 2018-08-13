@@ -58,6 +58,9 @@ import { OverTimeApi } from './services/custom/OverTime';
 import { EmailApi } from './services/custom/Email';
 import { PatternApi } from './services/custom/Pattern';
 import { ContainerApi } from './services/custom/Container';
+import { SpWorkingDayApi } from './services/custom/SpWorkingDay';
+import { ImageFileApi } from './services/custom/ImageFile';
+import { TargetApi } from './services/custom/Target';
 /**
 * @module SDKBrowserModule
 * @description
@@ -99,6 +102,9 @@ export class SDKBrowserModule {
         EmailApi,
         PatternApi,
         ContainerApi,
+        SpWorkingDayApi,
+        ImageFileApi,
+        TargetApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

@@ -1,0 +1,16 @@
+.file-upload{
+  display: block;
+}
+.file-upload input{
+  position: absolute;
+  font-size:1px;
+  opacity:0;
+  height:1px;
+  width:1px;
+  visibility: hidden;
+}
+img.preview{
+  display: inline-block;
+  width: 300px;
+  max-width: 100%;
+}

@@ -63,11 +63,20 @@
 
         <h3 md-subheader>Attendance</h3>
         <md-divider></md-divider>
-        <md-list-item [routerLink]="['/attendance']" (click)="sidenav.close()">
+        <md-list-item [routerLink]="['/attendance/addAttendance']" (click)="sidenav.close()">
           <md-icon>note_add</md-icon>&nbsp;&nbsp;&nbsp; Add Attendance
         </md-list-item>
         <md-list-item [routerLink]="['/attendance/viewAttendance']" (click)="sidenav.close()">
           <md-icon>view_comfy</md-icon>&nbsp;&nbsp;&nbsp; View Attendance
+        </md-list-item>
+
+        <h3 md-subheader>Targets</h3>
+        <md-divider></md-divider>
+        <md-list-item [routerLink]="['/target/addTarget']" (click)="sidenav.close()">
+          <md-icon>av_timer</md-icon>&nbsp;&nbsp;&nbsp; Add Target
+        </md-list-item>
+        <md-list-item [routerLink]="['/target/viewTarget']" (click)="sidenav.close()">
+          <md-icon>timer</md-icon>&nbsp;&nbsp;&nbsp; View Target
         </md-list-item>
       </md-nav-list>
     </md-sidenav>

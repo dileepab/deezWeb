@@ -19,7 +19,7 @@ export class AllPatternComponent implements OnInit {
               public snackBar: MdSnackBar) { }
 
   ngOnInit() {
-    this.titleService.sendTitle('All Cuts');
+    this.titleService.sendTitle('All Patterns');
 
     this.patternApi.find({
       order: 'date DESC',

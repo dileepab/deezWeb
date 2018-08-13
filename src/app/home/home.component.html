@@ -13,6 +13,17 @@
 
   <md-card fxFlex="33" fxFlex.lt-sm="100">
     <md-card-header>
+      <md-icon md-card-avatar>style</md-icon>
+      <md-card-title>Pattern</md-card-title>
+      <md-card-subtitle>View, Add, Edit Patterns</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions fxLayout="row">
+      <button md-button [routerLink]="['/pattern']">Go To Pattern</button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card fxFlex="33" fxFlex.lt-sm="100">
+    <md-card-header>
       <md-icon md-card-avatar>note_add</md-icon>
       <md-card-title>Attendance</md-card-title>
       <md-card-subtitle>Manage Attendance</md-card-subtitle>

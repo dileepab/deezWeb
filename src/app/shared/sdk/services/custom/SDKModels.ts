@@ -10,6 +10,9 @@ import { OverTime } from '../../models/OverTime';
 import { Email } from '../../models/Email';
 import { Pattern } from '../../models/Pattern';
 import { Container } from '../../models/Container';
+import { SpWorkingDay } from '../../models/SpWorkingDay';
+import { ImageFile } from '../../models/ImageFile';
+import { Target } from '../../models/Target';
 
 export interface Models { [name: string]: any }
 
@@ -27,6 +30,9 @@ export class SDKModels {
     Email: Email,
     Pattern: Pattern,
     Container: Container,
+    SpWorkingDay: SpWorkingDay,
+    ImageFile: ImageFile,
+    Target: Target,
     
   };
 

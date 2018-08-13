@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {EmployeeApi} from '../../../shared/sdk/services/custom/Employee';
 import {Employee} from '../../../shared/sdk/models/Employee';
-import {MdSnackBar} from '@angular/material';
+import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 
 @Component({
@@ -23,17 +23,18 @@ export class AddEmployeeComponent implements OnInit {
 
   addEmployee(): void {
     this.loading = true;
+    this.employee.isActive = true;
     this.employeeApi.create(this.employee).subscribe(
       (res: any) => {
         this.employee = new Employee();
         this.loading = false;
-        this.snackBar.open('Successfully Added', 'DISMISS', {
+        this.snackBar.open('Successfully Added', 'DISMISS', <MdSnackBarConfig>{
           duration: 5000,
         });
       },
       err => {
         this.snackBar.open(err.message ? err.message : 'Error Occurred!. Check Your Internet Connection',
-          (err.statusCode === 401 ? this.router.navigate(['/auth/logout']) : false) && 'DISMISS', {
+          (err.statusCode === 401 ? this.router.navigate(['/auth/logout']) : false) && 'DISMISS', <MdSnackBarConfig>{
             duration: 5000
           });
         this.loading = false;
